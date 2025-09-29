@@ -14,5 +14,9 @@ int main(int argc, char *argv[]) {
     else
         printf("Something failed when lexing\n");
 
+    print_tokens(lexer);
+
+    clean(lexer);
+
     return 0;
 }

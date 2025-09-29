@@ -1,0 +1,10 @@
+i32 main() {
+    print("Hello World!");
+
+    i8 x = 10;
+    u8 y = 10;
+
+    u8 is_larger = x >= y;
+
+    return 0;
+}

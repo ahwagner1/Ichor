@@ -8,7 +8,9 @@ typedef enum {
     T_DIVIDE,
     T_ASSIGN,
     T_LT,
+    T_LTE,
     T_GT,
+    T_GTE,
     T_LPAREN,
     T_RPAREN,
     T_LBRACE,
@@ -16,8 +18,15 @@ typedef enum {
     T_SEMI,
     T_IDENT,
     T_EOF,
-    T_INT,
-    T_FLOAT,
+    T_INT, // actual integers
+    T_FLOAT, // actual floats
+    T_AND,
+    T_OR,
+    T_INCREMENT,
+    T_DECREMENT,
+    T_BITWISE_AND,
+    T_BITWISE_OR,
+    T_XOR,
     
     /* keywords */
 
@@ -32,6 +41,7 @@ typedef enum {
     T_U64,
     T_F32,
     T_F64,
+    T_STRING,
 
     T_RETURN,
     T_PRINT
