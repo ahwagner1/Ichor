@@ -34,6 +34,11 @@ Lexer *init(char *file_name) {
     return lexer;
 }
 
+/*
+    TODO
+    Clean up how how the token incrementing happens
+    Some branches use continue and some dont, make consistent
+*/
 int lex(Lexer *lexer) {
     while (*lexer->curr_token != '\0') {
         switch (*lexer->curr_token) {
@@ -47,7 +52,7 @@ int lex(Lexer *lexer) {
                 break;
             case '+':
                 if (*(lexer->curr_token + 1) == '+') {
-                    add_token(lexer, T_INCREMENT, lexer->curr_token, lexer->curr_token + 1);
+                    add_token(lexer, T_INCREMENT, lexer->curr_token, lexer->curr_token + 2);
                     lexer->curr_token++;
                 }
                 else
@@ -72,7 +77,12 @@ int lex(Lexer *lexer) {
                     add_token(lexer, T_DIVIDE, lexer->curr_token, lexer->curr_token + 1);
                 break;
             case '=':
-                add_token(lexer, T_ASSIGN, lexer->curr_token, lexer->curr_token + 1);
+                if (*(lexer->curr_token + 1) == '=') {
+                    add_token(lexer, T_EQUALS, lexer->curr_token, lexer->curr_token + 2);
+                    lexer->curr_token++;
+                }
+                else
+                    add_token(lexer, T_ASSIGN, lexer->curr_token, lexer->curr_token + 1);
                 break;
             case '<':
                 if (*(lexer->curr_token + 1) == '=') {
@@ -102,8 +112,17 @@ int lex(Lexer *lexer) {
             case '}':
                 add_token(lexer, T_RBRACE, lexer->curr_token, lexer->curr_token + 1 );
                 break;
+            case '[':
+                add_token(lexer, T_LBRACKET, lexer->curr_token, lexer->curr_token + 1);
+                break;
+            case ']':
+                add_token(lexer, T_RBRACKET, lexer->curr_token, lexer->curr_token + 1);
+                break;
             case ';':
                 add_token(lexer, T_SEMI, lexer->curr_token, lexer->curr_token + 1);
+                break;
+            case ':':
+                add_token(lexer, T_COLON, lexer->curr_token, lexer->curr_token + 1);
                 break;
             case '&':
                 // might move this to a waterfall approach eventually
@@ -194,6 +213,9 @@ void add_token(Lexer *lexer, Token type, char *start, char* end) {
     check_token_capacity(lexer);
     lexer->tokens[lexer->token_count].token = type;
     lexer->tokens[lexer->token_count].value = extract_token(start, end);
+    lexer->tokens[lexer->token_count].span  = end - start;
+    lexer->tokens[lexer->token_count].line_number = lexer->line_number;
+    lexer->tokens[lexer->token_count].start_index = start - lexer->line_start;
 
     lexer->token_count++;
 }
@@ -247,6 +269,21 @@ void handle_identifier(Lexer *lexer) {
     else if (strcmp(identifier, "print") == 0) {
         add_token(lexer, T_PRINT, start, lexer->curr_token);
     }
+    else if (strcmp(identifier, "register") == 0) {
+        add_token(lexer, T_REGISTER, start, lexer->curr_token);
+    }
+    else if (strcmp(identifier, "for") == 0) {
+        add_token(lexer, T_FOR, start, lexer->curr_token);
+    }
+    else if (strcmp(identifier, "while") == 0) {
+        add_token(lexer, T_WHILE, start, lexer->curr_token);
+    }
+    else if (strcmp(identifier, "if") == 0) {
+        add_token(lexer, T_IF, start, lexer->curr_token);
+    }
+    else if (strcmp(identifier, "else") == 0) {
+        add_token(lexer, T_ELSE, start, lexer->curr_token);
+    }
     else {
         // variable/function names
         add_token(lexer, T_IDENT, start, lexer->curr_token);
@@ -257,7 +294,13 @@ void handle_identifier(Lexer *lexer) {
 
 void print_tokens(Lexer *lexer) {
     for (size_t i = 0; i < lexer->token_count; ++i) {
-        printf("Token: %s\n", lexer->tokens[i].value);
+        printf("Token: %s, type: %d, line number: %d, start index: %d, span: %d\n", 
+            lexer->tokens[i].value,
+            lexer->tokens[i].token,
+            lexer->tokens[i].line_number,
+            lexer->tokens[i].start_index,
+            lexer->tokens[i].span
+        );
     }
 }
 

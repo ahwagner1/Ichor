@@ -4,7 +4,11 @@ i32 main() {
     i8 x = 10;
     u8 y = 10;
 
-    u8 is_larger = x >= y;
+    if (x >= y) {
+        for (u8 i = 0; i < y; i++) {
+            print(i * 2);
+        }
+    }
 
     return 0;
 }

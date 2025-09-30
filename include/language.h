@@ -11,11 +11,15 @@ typedef enum {
     T_LTE,
     T_GT,
     T_GTE,
+    T_EQUALS,
     T_LPAREN,
     T_RPAREN,
     T_LBRACE,
     T_RBRACE,
+    T_LBRACKET,
+    T_RBRACKET,
     T_SEMI,
+    T_COLON,
     T_IDENT,
     T_EOF,
     T_INT, // actual integers
@@ -42,9 +46,16 @@ typedef enum {
     T_F32,
     T_F64,
     T_STRING,
+    T_REGISTER,
 
     T_RETURN,
-    T_PRINT
+    T_PRINT,
+
+    // control flow
+    T_FOR,
+    T_WHILE,
+    T_IF, 
+    T_ELSE
 } Token;
 
 

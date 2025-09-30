@@ -11,6 +11,9 @@
 #define INIT_TOKEN_CAPACITY 256
 
 typedef struct {
+    uint32_t line_number;
+    uint32_t start_index;
+    uint32_t span;
     char *value;
     Token token;
 } TokenData;
@@ -29,6 +32,7 @@ Lexer *init(char *file_name);
 int lex(Lexer *lexer);
 int token_to_int(Token token);
 char* extract_token(char *start, char *end);
+char token_to_str(Token token);
 void add_token(Lexer *lexer, Token type, char *start, char *end);
 void handle_identifier(Lexer *lexer);
 void print_tokens(Lexer *lexer);
