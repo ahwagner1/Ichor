@@ -14,6 +14,6 @@ The ultimate end-goal for now is to make the compiler bootstrapped. The super st
 Idk how optimized LLVM is when targeting MCU architecure, so that might be a fun research project once the compiler is bootstrapped.
 
 ### Name
-Ichor (pronounced eye-kore) is the blood of the gods in Greek mythology. The goal is to have this language be the "blood" of a MCU.
+Ichor (pronounced eye-kore or eye-kerr) is the blood of the gods in Greek mythology. The goal is to have this language be the "blood" of a MCU.
 
 
