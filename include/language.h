@@ -1,3 +1,6 @@
+// Copyright 2025 Ashton Wagner
+// SPDX-License-Identifier: Apache-2.0
+
 #ifndef _ICHOR_LANGUAGE_H_
 #define _ICHOR_LANGUAGE_H_
 
