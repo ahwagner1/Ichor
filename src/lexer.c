@@ -15,10 +15,10 @@ Lexer *init(char *file_name) {
     uint64_t size = ftell(file_ptr);
     rewind(file_ptr);
 
-    Lexer *lexer = (Lexer*)malloc(sizeof(Lexer));
+    Lexer *lexer = malloc(sizeof(Lexer));
     lexer->capacity = INIT_TOKEN_CAPACITY;
-    lexer->tokens = (TokenData*)malloc(sizeof(TokenData) * INIT_TOKEN_CAPACITY);
-    lexer->buffer = (char*)malloc(size + 1);
+    lexer->tokens = malloc(sizeof(TokenData) * INIT_TOKEN_CAPACITY);
+    lexer->buffer = malloc(size + 1);
     lexer->curr_token = lexer->buffer;
     lexer->line_start = lexer->buffer;
     if (!lexer->buffer || !lexer->tokens || !lexer) {
@@ -204,7 +204,7 @@ char *extract_token(char *start, char *end) {
         return NULL;
 
     uint32_t str_len = end - start;
-    char *text = (char*)malloc(str_len + 1);
+    char *text = malloc(str_len + 1);
 
     strncpy(text, start, str_len);
     text[str_len] = '\0';
@@ -231,7 +231,7 @@ void handle_identifier(Lexer *lexer) {
 
     // sort ugly since extract_token does this already but can refactor later lol
     uint32_t str_len = lexer->curr_token - start;
-    char *identifier = (char*)malloc(str_len + 1);
+    char *identifier = malloc(str_len + 1);
     
     strncpy(identifier, start, str_len);
     identifier[str_len] = '\0';
